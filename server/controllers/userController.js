@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 //registered user
-const registeredUser = async (req, res) => {
+const registeredUser = async (req, res,next) => {
     try {
         const { email, password, role } = req.body;
 
@@ -49,6 +49,7 @@ const loginUser = async (req, res, next) => {
                 res.status(200).json({
                     status: "SUCCESS",
                     message: "You are Logged In Successfully",
+                    role:user.role,
                     jwtToken
                 })
             }

@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const axios = require('axios');
 
 //Get All Products and Save into db
-const getAllProductsAndSaveIntoDB = async (req, res) => {
+const getAllProductsAndSaveIntoDB = async (req, res,next) => {
     try {
         const existingProducts = await Product.find({});
 
