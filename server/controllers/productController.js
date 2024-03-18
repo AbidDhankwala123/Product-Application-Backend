@@ -1,9 +1,10 @@
 const Product = require("../models/product");
 const mongoose = require("mongoose");
 const axios = require('axios');
+const Review = require("../models/reviews");
 
 //Get All Products and Save into db
-const getAllProductsAndSaveIntoDB = async (req, res,next) => {
+const getAllProductsAndSaveIntoDB = async (req, res, next) => {
     try {
         const existingProducts = await Product.find({});
 
@@ -35,7 +36,7 @@ const getAllProductsAndSaveIntoDB = async (req, res,next) => {
 }
 
 //Get Product By ID
-const getProductById = async (req, res) => {
+const getProductById = async (req, res, next) => {
     try {
         const { productId } = req.params;
         if (!mongoose.Types.ObjectId.isValid(productId)) {
@@ -87,5 +88,32 @@ const updateProduct = async (req, res, next) => {
 
 }
 
+const submitReview = async (req, res, next) => {
+    try {
+        const { productId } = req.params;
+        const { productName, price, image, productDescription, department } = req.body;
 
-module.exports = { getAllProductsAndSaveIntoDB, getProductById, updateProduct }
+        // Create a new review document
+        const review = new Review({
+            productId,
+            productName,
+            price,
+            image,
+            productDescription,
+            department,
+            status: 'pending', // Set initial status to 'pending'
+            author: req.user._id //  get user ID from authentication middleware 
+        });
+
+        // Save the review to the database
+        await review.save();
+
+        res.status(200).json({ message: 'Review submitted successfully', review });
+    } catch (error) {
+        console.log(error);
+        res.status(400);
+        return next(new Error(error.message));
+    }
+};
+
+module.exports = { getAllProductsAndSaveIntoDB, getProductById, updateProduct, submitReview }

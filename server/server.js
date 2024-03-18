@@ -22,6 +22,7 @@ app.use(cors());
 
 app.use("/", require("./routes/userRoutes"));
 app.use("/api/products",require("./routes/productRoutes"));
+app.use("/api/reviews",require("./routes/reviewRoutes"));
 
 //Handling Error Midddleware
 app.use(errorHandler);
