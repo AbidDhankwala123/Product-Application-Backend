@@ -4,7 +4,7 @@ const User = require("./user");
 
 const reviewSchema = new mongoose.Schema({
     productId: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: Product, // Reference to the Product model
         required: true
     },
